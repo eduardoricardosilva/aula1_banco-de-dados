@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import ttk, messagebox
 import categoria
+import livros
 
 # --- MENU PRINCIPAL (ROOT) ---
 root = tk.Tk()
@@ -26,21 +27,18 @@ root.config(menu=barra_menu)
 
 tk.Label(root, text="GERENCIADOR BIBLIOTECA", font=("Arial", 14, "bold")).pack(pady=30)
 
-btn_cadastrar = tk.Button(root, text="NOVO CADASTRO", width=25, height=2, 
-                          command=lambda:categoria.abrir_cadastro(root), bg="#e1e1e1")
+btn_cadastrar = tk.Button(root, text="CONSULTAR LIVROS", width=25, height=2, command=lambda:categoria.abrir_cadastro(root), bg="#e1e1e1")
+btn_cadastrar.pack(pady=10)
+
+btn_cadastrar = tk.Button(root, text="NOVO CADASTRO", width=25, height=2, command=lambda:categoria.abrir_cadastro(root), bg="#e1e1e1")
 btn_cadastrar.pack(pady=10)
 
 # O lambda cria um "adiamento". A função só roda no clique.
-btn_consultar = tk.Button(
-    root, 
-    text="CONSULTAR LISTA", 
-    command=lambda: categoria.abrir_consulta(root), 
-    bg="#e1e1e1"
+btn_consultar = tk.Button(root, text="CONSULTAR LISTA", width=25, height=2,command=lambda: categoria.abrir_consulta(root), bg="#e1e1e1"
 )
 btn_consultar.pack(pady=10)
 
-btn_cadastrar_livro = tk.Button(root, text="NOVO CADASTRO LIVRO", width=25, height=2, 
-                          command=lambda:livro.abrir_cadastro_livro(root), bg="#e1e1e1")
+btn_cadastrar_livro = tk.Button(root, text="NOVO CADASTRO LIVRO", width=25, height=2, command=lambda:livros.abrir_cadastro_livro(root), bg="#e1e1e1")
 btn_cadastrar_livro.pack(pady=10)
 
 btn_sair = tk.Button(root, text="SAIR", width=25, command=root.quit, fg="red")

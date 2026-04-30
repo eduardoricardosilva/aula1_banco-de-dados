@@ -2,29 +2,48 @@ import tkinter as tk
 from tkinter import ttk, messagebox
 import sqlite3
 
+from categoria import abrir_cadastro
+
 # --- BANCO DE DADOS ---
 def conectar():
     conn = sqlite3.connect("banco.db")
     cursor = conn.cursor()
     cursor.execute("""
-        CREATE TABLE IF NOT EXISTS genero (
+        CREATE TABLE IF NOT EXISTS livros (
             id INTEGER PRIMARY KEY AUTOINCREMENT, 
-            nome VARCHAR(100) NOT NULL
+            titulo VARCHAR(100) NOT NULL
         )
     """)
     conn.commit()
     return conn
 
+def obter_categorias():
+    """Retorna uma lista de tuplas (id, nome) das categorias."""
+    conn = conectar()
+    cursor = conn.cursor()
+    cursor.execute("SELECT id, nome FROM genero")
+    dados = cursor.fetchall()
+    conn.close()
+    return dados
+
 # --- LÓGICA DAS TELAS ---
 
-def abrir_cadastro(parent, id=None):
+def abrir_cadastro_livro(parent, id=None):
     janela_cad = tk.Toplevel(parent)
     janela_cad.title("Editar Categoria" if id else "Cadastrar Categoria")
-    janela_cad.geometry("350x200")
+    janela_cad.geometry("350x350")
     
-    tk.Label(janela_cad, text="Nome da Categoria:", font=("Arial", 10)).pack(pady=10)
+    tk.Label(janela_cad, text="Nome da Livro:", font=("Arial", 10)).pack(pady=10)
     ent_nome = tk.Entry(janela_cad, width=30)
     ent_nome.pack(pady=5)
+
+    def obter_id_selecionado():
+            nome_selecionado = combo_categoria.get()
+            if nome_selecionado:
+                # Buscamos o ID no dicionário usando o nome que está no combo
+                id_final = mapeamento_categorias[nome_selecionado]
+                return id_final
+            return None
 
     # Se for EDIÇÃO, preenche o campo com o nome atual
     if id:
@@ -47,11 +66,12 @@ def abrir_cadastro(parent, id=None):
         
         if id:
             # Lógica de Atualização
-            cursor.execute("UPDATE genero SET nome_genero = ? WHERE id_categoria = ?", (nome, id))
+            cursor.execute("UPDATE genero SET nome = ? WHERE id_genero = ?", (nome, id))
             mensagem = "Categoria atualizada com sucesso!"
         else:
             # Lógica de Inserção
-            cursor.execute("INSERT INTO genero (nome_genero) VALUES (?)", (nome))
+            id_para_sql = obter_id_selecionado()
+            cursor.execute("INSERT INTO livros (titulo,id_genero) VALUES (?)", (nome,id_para_sql))
             mensagem = "Categoria cadastrada com sucesso!"
             
         conn.commit()
@@ -64,13 +84,28 @@ def abrir_cadastro(parent, id=None):
     
     tk.Button(janela_cad, text=btn_texto, command=salvar, bg=btn_cor).pack(pady=20)
 
+            # Campo: Seleção de Categoria (Combobox)
+    tk.Label(janela_cad, text="Selecione a Categoria:").pack(pady=(15, 5))
+    
+        # Buscamos as categorias do banco
+    lista_categorias = obter_categorias() # Formato: [(1, 'Eletrônicos'), (2, 'Móveis')]
+
+    mapeamento_categorias = {nome_categoria: id_categoria for id_categoria, nome_categoria in lista_categorias}
+    nomes_categorias = list(mapeamento_categorias.keys())
+    
+        # Criamos uma lista apenas com os nomes para exibir no Combobox
+    nomes_categorias = [c[1] for c in lista_categorias]
+    
+    combo_categoria = ttk.Combobox(janela_cad, values=nomes_categorias, width=32, state="readonly")
+    combo_categoria.pack()
+
 def abrir_consulta(parent):
     janela_con = tk.Toplevel(parent)
     janela_con.title("Consultar genero")
-    janela_con.geometry("500x480") 
+    janela_con.geometry("500x500") 
 
     # 1. Tabela (Treeview)
-    colunas = ("ID", "Nome da Categoria")
+    colunas = ("ID", "Titulo")
     tabela = ttk.Treeview(janela_con, columns=colunas, show="headings")
     tabela.heading("ID", text="ID")
     tabela.heading("Nome da Categoria", text="Nome da Categoria")
@@ -113,3 +148,4 @@ def abrir_consulta(parent):
     for linha in cursor.fetchall():
         tabela.insert("", tk.END, values=linha)
     conn.close()
+
