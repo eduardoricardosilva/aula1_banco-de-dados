@@ -26,14 +26,22 @@ def obter_categorias():
     conn.close()
     return dados
 
+def obter_autor():
+    conn = conectar()
+    cursor = conn.cursor()
+    cursor.execute("SELECT id, nome FROM autor")
+    dados = cursor.fetchall()
+    conn.close()
+    return dados
+
 # --- LÓGICA DAS TELAS ---
 
 def abrir_cadastro_livro(parent, id=None):
     janela_cad = tk.Toplevel(parent)
-    janela_cad.title("Editar Categoria" if id else "Cadastrar Categoria")
+    janela_cad.title("Editar Categoria" if id else "Cadastrar Livro")
     janela_cad.geometry("350x350")
     
-    tk.Label(janela_cad, text="Nome da Livro:", font=("Arial", 10)).pack(pady=10)
+    tk.Label(janela_cad, text="Nome do Livro:", font=("Arial", 10)).pack(pady=10)
     ent_nome = tk.Entry(janela_cad, width=30)
     ent_nome.pack(pady=5)
 
@@ -81,8 +89,7 @@ def abrir_cadastro_livro(parent, id=None):
 
     btn_texto = "Atualizar" if id else "Salvar"
     btn_cor = "#ffcc00" if id else "lightgreen"
-    
-    tk.Button(janela_cad, text=btn_texto, command=salvar, bg=btn_cor).pack(pady=20)
+
 
             # Campo: Seleção de Categoria (Combobox)
     tk.Label(janela_cad, text="Selecione a Categoria:").pack(pady=(15, 5))
@@ -98,6 +105,24 @@ def abrir_cadastro_livro(parent, id=None):
     
     combo_categoria = ttk.Combobox(janela_cad, values=nomes_categorias, width=32, state="readonly")
     combo_categoria.pack()
+
+        #Campo: seleção do autor#
+
+    tk.Label(janela_cad, text="Selecione o autor:").pack(pady=(15, 5))
+    
+        # Buscamos autores do banco
+    lista_categorias = obter_categorias() # Formato: [(1, 'Eletrônicos'), (2, 'Móveis')]
+
+    mapeamento_categorias = {nome_categoria: id_categoria for id_categoria, nome_categoria in lista_categorias}
+    nomes_categorias = list(mapeamento_categorias.keys())
+    
+        # Criamos uma lista apenas com os nomes para exibir no Combobox
+    nomes_categorias = [c[1] for c in lista_categorias]
+    
+    combo_categoria = ttk.Combobox(janela_cad, values=nomes_categorias, width=32, state="readonly")
+    combo_categoria.pack()
+
+    tk.Button(janela_cad, text=btn_texto, command=salvar, bg=btn_cor).pack(pady=20)
 
 def abrir_consulta(parent):
     janela_con = tk.Toplevel(parent)
