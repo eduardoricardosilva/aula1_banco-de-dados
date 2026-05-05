@@ -10,7 +10,7 @@ def conectar():
     cursor = conn.cursor()
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS livros (
-            id INTEGER PRIMARY KEY AUTOINCREMENT, 
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
             titulo VARCHAR(100) NOT NULL
         )
     """)
