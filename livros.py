@@ -4,6 +4,7 @@ import sqlite3
 
 from categoria import abrir_cadastro
 
+
 # --- BANCO DE DADOS ---
 def conectar():
     conn = sqlite3.connect("banco.db")
@@ -57,7 +58,7 @@ def abrir_cadastro_livro(parent, id=None):
     if id:
         conn = conectar()
         cursor = conn.cursor()
-        cursor.execute("SELECT nome_genero FROM categoria WHERE id_categoria = ?", (id))
+        cursor.execute("SELECT nome_genero FROM categoria WHERE id_categoria = ?", (id,))
         resultado = cursor.fetchone()
         if resultado:
             ent_nome.insert(0, resultado[0])

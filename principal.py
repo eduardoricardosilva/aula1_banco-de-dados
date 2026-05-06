@@ -6,7 +6,7 @@ import livros
 # --- MENU PRINCIPAL (ROOT) ---
 root = tk.Tk()
 root.title("Menu Principal - Sistema de Biblioteca")
-root.geometry("400x500")
+root.geometry("450x500")
 
 # 1. Criar a barra de menu principal
 barra_menu = tk.Menu(root)
