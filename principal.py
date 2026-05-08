@@ -4,6 +4,7 @@ from datetime import datetime
 import categoria
 import livros
 import backup
+from cadastro_livro import janela_cadastro_livro
 
 # --- FUNÇÃO DA TELA PRINCIPAL ---
 def montar_tela_principal(container):
@@ -34,7 +35,7 @@ def montar_tela_principal(container):
     btn_cons_livros.pack(pady=5)
 
     btn_novo_cad = tk.Button(container, text="CADASTRAR LIVROS", width=25, height=2, 
-    command=lambda: categoria.abrir_cadastro(container), bg="#e1e1e1")
+    command=lambda: janela_cadastro_livro(container), bg="#e1e1e1")
     btn_novo_cad.pack(pady=5)
 
 
