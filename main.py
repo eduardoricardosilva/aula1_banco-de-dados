@@ -21,7 +21,6 @@ def validar_e_entrar(usuario, senha):
             for widget in root.winfo_children():
                 widget.destroy()
             montar_tela_principal(root) # Chame sua função aqui
-            #tk.Label(root, text="Bem-vindo à Tela Principal",command=lambda:montar_tela_principal()).pack() 
             
         else:
             messagebox.showerror("Login", "E-mail ou senha inválidos!")

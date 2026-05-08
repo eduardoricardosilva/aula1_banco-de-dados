@@ -4,7 +4,7 @@ from tkinter import messagebox
 def montar_tela_login(container, comando_entrar):
     # Usamos o container (root) enviado pelo main, não criamos um novo tk.Tk()
     container.title("Tela de Login")
-    container.geometry("350x400")
+    container.geometry("400x400")
     container.configure(bg="#e8f0f6")
 
     # Limpa o container antes de montar
@@ -25,6 +25,16 @@ def montar_tela_login(container, comando_entrar):
     btn = tk.Button(
         container, 
         text="Entrar", 
-        command=lambda: comando_entrar(ent_email.get(), ent_senha.get())
+        command=lambda: comando_entrar(ent_email.get(), ent_senha.get()),
+        bg="#4CAF50",
+        fg="black",
+        font=("Segoe UI", 11, "bold"),
+        activebackground="#45a049",
+        activeforeground="white",
+        width=10,
+        height=1,
+        cursor="hand2",
+        relief="flat",
+        bd=0
     )
     btn.pack(pady=20)
