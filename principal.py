@@ -25,8 +25,8 @@ def montar_tela_principal(container):
     # 3. Cabeçalho com Data
     data_hoje = datetime.now().strftime("%d/%m/%Y")
     tk.Label(container, text=f"Data: {data_hoje}", font=("Arial", 9)).pack(anchor="e", padx=10)
-    tk.Label(container, text="Área Restrita", fg="green", font=("Arial", 12, "bold")).pack(pady=5)
-    tk.Label(container, text="GERENCIADOR BIBLIOTECA", font=("Arial", 14, "bold")).pack(pady=20)
+    tk.Label(container, text="Área Restrita", fg="green", font=("Arial", 12, "bold"), bg="#e8f0f6").pack(pady=5)
+    tk.Label(container, text="GERENCIADOR BIBLIOTECA", font=("Arial", 14, "bold"),bg="#e8f0f6").pack(pady=20)
 
     # 4. Botões com nomes únicos
     btn_cons_livros = tk.Button(container, text="CONSULTAR LIVROS", width=25, height=2, 
