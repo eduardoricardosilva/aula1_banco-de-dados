@@ -6,7 +6,7 @@ import sqlite3
 def janela_cadastro_livro(container):
     janela_cad_livros = tk.Toplevel(container)
     janela_cad_livros.title("Cadastro de livros")
-    janela_cad_livros.geometry("500x500")
+    janela_cad_livros.geometry("500x700")
     janela_cad_livros.configure(bg="#e8f0f6")
 
     #Títiulo da janela
